@@ -14,39 +14,50 @@ public class Scanner{
       return this.tokenType + ": " + this.tokenVal + " ";
     }
   }
+  
+  private Token currentToken = null;
 
   public Token extractToken(StringBuilder stream){
-	  String arg = stream.toString();
-	  char firstChar = arg.charAt(0);
-	  String firstStringChar = arg.substring(0, 1);
-	  Token firstToken = null;
+	  TokenType thisTokenType = null;
+	  String tokenValue = "";
+	  char charInput = stream.charAt(0);
 	  
-	  if (firstChar == '>') { 
-		  firstToken = new Token(TokenType.GT, firstStringChar);
-		  char secondChar = arg.charAt(1);
-		  if (secondChar == '=') {
-			  String firstTwoStringChar = arg.substring(0,2);
-			  firstToken = new Token(TokenType.GTE, firstTwoStringChar);
-		  }
-	  } else if (firstChar == '<') {
-		  firstToken = new Token(TokenType.LT, firstStringChar);
-		  char secondChar = arg.charAt(1);
-		  if (secondChar == '=') {
-			  String firstTwoStringChar = arg.substring(0,2);
-			  firstToken = new Token(TokenType.LTE, firstTwoStringChar);
-		  }
-	  } else if (Character.isDigit(firstChar)) {
-		  firstToken = new Token(TokenType.NUM, firstStringChar);
-	  } else if (firstChar == '+') {
-		  firstToken = new Token(TokenType.PLUS, firstStringChar);
-	  } else if (firstChar == '-') {
-		  firstToken = new Token(TokenType.MINUS, firstStringChar);
-	  } else if (firstChar == '*') {
-		  firstToken = new Token(TokenType.MUL, firstStringChar);
-	  } else if (firstChar == '/') {
-		  firstToken = new Token(TokenType.DIV, firstStringChar);
+	  if (charInput == '>') {
+		  thisTokenType = TokenType.GT;
+		  tokenValue = charInput + "";
+//		  char secondChar = arg.charAt(1);
+//		  if (secondChar == '=') {
+//			  String firstTwoStringChar = arg.substring(0,2);
+//			  firstToken = new Token(TokenType.GTE, firstTwoStringChar);
+//		  }
+	  } else if (charInput == '<') {
+		  thisTokenType = TokenType.LT; 
+		  tokenValue = charInput + "";
+//		  char secondChar = arg.charAt(1);
+//		  if (secondChar == '=') {
+//			  String firstTwoStringChar = arg.substring(0,2);
+//			  firstToken = new Token(TokenType.LTE, firstTwoStringChar);
+//		  }
+	  } else if (currentToken != null && currentToken.tokenType == TokenType.GT) {
+	  } else if (Character.isDigit(charInput)) {
+		  thisTokenType = TokenType.NUM;
+		  tokenValue = charInput + "";
+	  } else if (charInput == '+') {
+		  thisTokenType = TokenType.PLUS;
+		  tokenValue = charInput + "";
+	  } else if (charInput == '-') {
+		  thisTokenType = TokenType.MINUS;
+		  tokenValue = charInput + "";
+	  } else if (charInput == '*') {
+		  thisTokenType = TokenType.MUL;
+		  tokenValue = charInput + "";
+	  } else if (charInput == '/') {
+		  thisTokenType = TokenType.DIV;
+		  tokenValue = charInput + "";
+	  } else {
+		  System.err.println("Invaild Input is found");
 	  }
-	 return firstToken;
+	 return currentToken;
   }
 
   public String extractTokens(String arg){
@@ -63,7 +74,10 @@ public class Scanner{
 	  String result = "";
 	  while(!arg.isEmpty()) {
 		  Token nextToken = extractToken(new StringBuilder(arg));
-		  result += nextToken.toString();
+		  if (nextToken != null) {
+			  result += nextToken.toString();
+		  }
+		  arg = arg.substring(1);
 	  }
     return result;
   }
