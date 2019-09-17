@@ -25,20 +25,12 @@ public class Scanner{
 	  if (charInput == '>') {
 		  thisTokenType = TokenType.GT;
 		  tokenValue = charInput + "";
-//		  char secondChar = arg.charAt(1);
-//		  if (secondChar == '=') {
-//			  String firstTwoStringChar = arg.substring(0,2);
-//			  firstToken = new Token(TokenType.GTE, firstTwoStringChar);
-//		  }
 	  } else if (charInput == '<') {
 		  thisTokenType = TokenType.LT; 
 		  tokenValue = charInput + "";
-//		  char secondChar = arg.charAt(1);
-//		  if (secondChar == '=') {
-//			  String firstTwoStringChar = arg.substring(0,2);
-//			  firstToken = new Token(TokenType.LTE, firstTwoStringChar);
-//		  }
-	  } else if (currentToken != null && currentToken.tokenType == TokenType.GT) {
+	  } else if (currentToken != null && currentToken.tokenType == TokenType.GT && charInput == '=') {
+		  thisTokenType = TokenType.GTE;
+		  tokenValue = currentToken.tokenVal + charInput;
 	  } else if (Character.isDigit(charInput)) {
 		  thisTokenType = TokenType.NUM;
 		  tokenValue = charInput + "";
@@ -57,6 +49,7 @@ public class Scanner{
 	  } else {
 		  System.err.println("Invaild Input is found");
 	  }
+	  currentToken = new Token(thisTokenType, tokenValue);
 	 return currentToken;
   }
 
@@ -79,7 +72,8 @@ public class Scanner{
 		  }
 		  arg = arg.substring(1);
 	  }
-    return result;
+	  System.out.println(result);
+	  return result;
   }
 
 }
