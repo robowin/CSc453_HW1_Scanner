@@ -25,7 +25,7 @@ public class Scanner{
 
        Pseudo code:
        String extractTokens(String arg):
-         String result= “”;
+         String result= â€œâ€�;
          while(arg is not empty)
             Token nextToken = extractToken(arg)
             result += nextToken.toString()
