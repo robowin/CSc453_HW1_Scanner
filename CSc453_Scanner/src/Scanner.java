@@ -19,13 +19,14 @@ public class Scanner{
     /* TODO #2: Extract the next token in the string, or report an error*/
     return null;
   }
+  
 
   public String extractTokens(String arg){
     /* TODO #1: Finish this function to iterate over all tokens in the input string.
 
        Pseudo code:
        String extractTokens(String arg):
-         String result= “”;
+         String result= â€œâ€�;
          while(arg is not empty)
             Token nextToken = extractToken(arg)
             result += nextToken.toString()
