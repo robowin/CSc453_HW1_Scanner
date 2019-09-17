@@ -17,6 +17,7 @@ public class Scanner{
 
   public Token extractToken(StringBuilder stream){
     /* TODO #2: Extract the next token in the string, or report an error*/
+	  
     return null;
   }
 
@@ -31,7 +32,12 @@ public class Scanner{
             result += nextToken.toString()
          return result
     */
-    return null;
+	  String result = "";
+	  while(!arg.isEmpty()) {
+		  Token nextToken = extractToken(new StringBuilder(arg));
+		  result += nextToken.toString();
+	  }
+    return result;
   }
 
 }
