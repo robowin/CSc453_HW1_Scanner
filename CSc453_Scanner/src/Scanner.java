@@ -1,6 +1,6 @@
 public class Scanner{
   enum TokenType{
-      NUM, PLUS, MINUS, MUL, DIV, LT, LTE, GT, GTE;
+      NUM, PLUS, MINUS, MUL, DIV, LT, LTE, GT, GTE, aa;
   }
 
   class Token{
