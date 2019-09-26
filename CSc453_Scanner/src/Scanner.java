@@ -14,29 +14,26 @@ public class Scanner{
       return "|" + this.tokenType + ": " + this.tokenVal + "|";
     }
   }
-  
-  private int curPos;
-  private Token currentToken;
 
   public Token extractToken(StringBuilder stream){
 	  TokenType thisTokenType = null;
 	  String tokenValue = "";
-	  char charInput = stream.charAt(curPos);
+	  char charInput = stream.charAt(0);
 	  
 	  if (charInput == '>') {
-		  if (curPos < stream.length() - 1 && stream.charAt(curPos + 1) == '=') {
+		  if (stream.length() > 1 && stream.charAt(1) == '=') {
 			  thisTokenType = TokenType.GTE;
 			  tokenValue = "" + charInput + '=';
-			  curPos++;
+			  stream = stream.deleteCharAt(0);
 		  } else {
 			  thisTokenType = TokenType.GT;
 			  tokenValue = charInput + "";
 		  }
 	  } else if (charInput == '<') {
-		  if (curPos < stream.length() - 1 && stream.charAt(curPos + 1) == '=') {
+		  if (stream.length() > 1 && stream.charAt(1) == '=') {
 			  thisTokenType = TokenType.LTE;
 			  tokenValue = "" + charInput + '=';
-			  curPos++;
+			  stream = stream.deleteCharAt(0);
 		  } else {
 			  thisTokenType = TokenType.LT;
 			  tokenValue = charInput + "";
@@ -46,13 +43,13 @@ public class Scanner{
 		  tokenValue = charInput + "";
 		  
 		  int index;
-		  for (index = curPos;index < stream.length() - 1;index++) {
+		  for (index = 0;index < stream.length() - 1;index++) {
 			  if (!Character.isDigit(stream.charAt(index + 1))) {
 				  break;
 			  }
 			  tokenValue += stream.charAt(index + 1);
 		  }
-		  curPos = index;
+		  stream = stream.delete(0, index);
 	  } else if (charInput == '+') {
 		  thisTokenType = TokenType.PLUS;
 		  tokenValue = charInput + "";
@@ -67,23 +64,20 @@ public class Scanner{
 		  tokenValue = charInput + "";
 	  } else if (charInput == ' ' || charInput == '\n' || charInput == '\t') {
 		  int index;
-		  for (index = curPos;index < stream.length() - 1;index++) {
+		  for (index = 0;index < stream.length() - 1;index++) {
 			  if (stream.charAt(index + 1) != ' ' && stream.charAt(index + 1) != '\n' && stream.charAt(index + 1) != '\t') {
 				  break;
 			  }
 		  }
-		  curPos = index;
-		  curPos++;
-		  currentToken = null;
+		  stream = stream.delete(0, index + 1);
 		  return null;
 	  } else {
-		  System.err.println("Invaild Input " + stream.charAt(curPos) + " is found");
-		  curPos++;
+		  System.err.println("Invaild Input " + stream.charAt(0) + " is found");
+		  stream = stream.deleteCharAt(0);
 		  return null;
 	  }
-	  currentToken = new Token(thisTokenType, tokenValue);
-	  curPos++;
-	 return currentToken;
+	  stream = stream.deleteCharAt(0);
+	  return new Token(thisTokenType, tokenValue);
   }
 
   public String extractTokens(String arg){
@@ -97,16 +91,13 @@ public class Scanner{
             result += nextToken.toString()
          return result
     */
-	  curPos = 0;
-	  currentToken = null;
 	  String result = "";
-	  while(!arg.isEmpty()) {
-		  Token nextToken = extractToken(new StringBuilder(arg));
+	  StringBuilder sbArg = new StringBuilder(arg);
+	  while(sbArg.length() != 0) {
+		  Token nextToken = extractToken(sbArg);
 		  if (nextToken != null) {
 			  result += nextToken.toString();
 		  }
-		  arg = arg.substring(curPos);
-		  curPos = 0;
 	  }
 	  return result;
   }
